@@ -9,13 +9,22 @@ class App extends Component {
     this.state = {
       monsters: [], //initial state
     }
+    console.log("constructor");
   }
   componentDidMount(){
+    console.log("componentDidMount");
     fetch("https://jsonplaceholder.typicode.com/users")
     .then((response)=> response.json())
-    .then((users)=>{console.log(users);})
+    .then((users)=>{
+      this.setState(()=>{
+        return {monsters:users} //update state
+      },()=>{
+        console.log(this.state);
+      })
+    })
   }
   render(){
+    console.log("render");
     return (
       <div className="App">
         {
