@@ -8,6 +8,7 @@ class App extends Component {
     super();
     this.state = {
       monsters: [], //initial state
+      searcField: '',
     }
     console.log("constructor");
   }
@@ -25,10 +26,24 @@ class App extends Component {
   }
   render(){
     console.log("render");
+    const filteredMosters = this.state.monsters.filter((monster)=>{
+      return monster.name.toLocaleLowerCase().includes(this.state.searcField);
+    });
     return (
       <div className="App">
+        <input
+        type='search'
+        className='seach-box'
+        placeholder='Search Monster'
+        onChange={(event)=>{
+          console.log(event.target.value);
+          const searcField = event.target.value.toLocaleLowerCase();
+          this.setState(()=>{
+            return {searcField}
+          });
+        }}/>
         {
-          this.state.monsters.map((monster)=>{
+          filteredMosters.map((monster)=>{
             return <h1 key={monster.id}>{monster.name}</h1>
           })
         }
