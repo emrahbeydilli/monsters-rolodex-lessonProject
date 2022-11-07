@@ -1,6 +1,4 @@
 import React, { Component } from 'react';
-
-import logo from './logo.svg';
 import './App.css';
 
 class App extends Component {
@@ -44,7 +42,11 @@ class App extends Component {
         }}/>
         {
           filteredMosters.map((monster)=>{
-            return <h1 key={monster.id}>{monster.name}</h1>
+            return (
+              <div key={monster.id}>
+                <h1>{monster.name}</h1>
+              </div>
+            )
           })
         }
       </div>
