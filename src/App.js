@@ -1,53 +1,58 @@
 import React, { Component } from 'react';
+import CardList from "./components/card-list/card-list.component";
+
 import './App.css';
 
 class App extends Component {
   constructor(){
     super();
     this.state = {
-      monsters: [], //initial state
-      searcField: '',
+      monsters: [],
+      searchField: '',
     }
-    console.log("constructor");
   }
   componentDidMount(){
-    console.log("componentDidMount");
     fetch("https://jsonplaceholder.typicode.com/users")
     .then((response)=> response.json())
     .then((users)=>{
       this.setState(()=>{
-        return {monsters:users} //update state
+        return {monsters:users}
       },()=>{
         console.log(this.state);
       })
     })
   }
+
+  onSearchChange = (event)=>{
+    const searchField = event.target.value.toLocaleLowerCase();
+    this.setState(()=>{
+      return {searchField}
+    });
+  }
+
   render(){
-    console.log("render");
-    const filteredMosters = this.state.monsters.filter((monster)=>{
-      return monster.name.toLocaleLowerCase().includes(this.state.searcField);
+    const {monsters,searchField} = this.state;
+    const {onSearchChange} = this;
+
+    const filteredMosters = monsters.filter((monster)=>{
+      return monster.name.toLocaleLowerCase().includes(searchField);
     });
     return (
-      <div className="App">
+      <div className="App"> 
         <input
         type='search'
         className='seach-box'
         placeholder='Search Monster'
-        onChange={(event)=>{
-          console.log(event.target.value);
-          const searcField = event.target.value.toLocaleLowerCase();
-          this.setState(()=>{
-            return {searcField}
-          });
-        }}/>
+        onChange={onSearchChange}/>
         {
-          filteredMosters.map((monster)=>{
-            return (
-              <div key={monster.id}>
-                <h1>{monster.name}</h1>
-              </div>
-            )
-          })
+          // filteredMosters.map((monster)=>{
+          //   return (
+          //     <div key={monster.id}>
+          //       <h1>{monster.name}</h1>
+          //     </div>
+          //   )
+          // })
+          <CardList monsters={filteredMosters}/>
         }
       </div>
     );
